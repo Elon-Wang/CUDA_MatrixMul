@@ -1,0 +1,34 @@
+CPP=g++CC=gcc
+CPP=g++
+AR=ar
+NVCC=nvcc
+
+CSRCS := $(shell find . -name '*.c' -not -name '._*')
+COBJS := $(subst .c,.o,$(CSRCS))
+
+CUSRCS := $(shell find . -name '*.cu' -not -name '._*')
+CUOBJS := $(subst .cu,.o,$(CUSRCS))
+
+LIBDIR := -L/usr/local/cuda/lib64
+
+CUFLAGS= \
+-I. \
+-Xcompiler \
+-fPIC
+
+LDFLAGS=-L. -lm -lpthread -lrt
+
+all: cublas clean
+
+%.o: %.c
+	$(NVCC) $(CUFLAGS) -c $< -o $(basename $@).o
+
+%.o: %.cu
+	$(NVCC) $(CUFLAGS) -c $< -o $(basename $@).o
+
+cublas: $(CUOBJS) $(COBJS)
+	$(NVCC) -o ../exec/cublas cublas.cu $(COBJS) -lcublas
+
+clean:
+	find . -name "*.o" -exec rm -f '{}' ';'
+
