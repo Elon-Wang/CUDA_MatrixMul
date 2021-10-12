@@ -11,7 +11,7 @@ __global__ void MM_v2(float*,float*,float*);
 int main(){
     const char M1[] = "../data/Matrix1.bin";
     const char M2[] = "../data/Matrix2Trans.bin";
-    const char Out[]="../data/MM_v1_Result.bin";
+    const char Out[]="../data/MM_v2_Result.bin";
 
     // the parameter of the two matrix
     // int Batch = 1;

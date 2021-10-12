@@ -18,7 +18,7 @@ CUFLAGS= \
 
 LDFLAGS=-L. -lm -lpthread -lrt
 
-all: cublas MM_v1 MM_v2 clean
+all: cublas MM_v1 MM_v2 MM_v3 MM_v4 clean
 
 %.o: %.c
 	$(NVCC) $(CUFLAGS) -c $< -o $(basename $@).o
@@ -32,9 +32,14 @@ cublas: $(CUOBJS) $(COBJS)
 MM_v1: $(CUOBJS) $(COBJS)
 	$(NVCC) -o ../exec/MM_v1 MM_v1.cu $(COBJS) -lcublas
 
-
 MM_v2: $(CUOBJS) $(COBJS)
 	$(NVCC) -o ../exec/MM_v2 MM_v2.cu $(COBJS) -lcublas
+
+MM_v3: $(CUOBJS) $(COBJS)
+	$(NVCC) -o ../exec/MM_v3 MM_v3.cu $(COBJS) -lcublas
+
+MM_v4: $(CUOBJS) $(COBJS)
+	$(NVCC) -o ../exec/MM_v4 MM_v4.cu $(COBJS) -lcublas
 
 clean:
 	find . -name "*.o" -exec rm -f '{}' ';'
