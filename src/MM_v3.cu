@@ -98,11 +98,13 @@ __global__ void MM_v3(float* d_A, float* d_B, float* d_C){
             }
         }
 
+        // __syncthreads();
         for(int k=0;k<16;k++){
             for(int i=0;i<16;i++){
                 output[k/4][k%4] += M1[i][tx*4+ k/4] * M2[i][ty*4 + k%4];
             }
         }
+        __syncthreads();
     }
     for(int k=0;k<16;k++){
         d_C[Batch*128*128+tx*4*128 + k/4*128 + ty*4 + k%4] = output[k/4][k%4];
